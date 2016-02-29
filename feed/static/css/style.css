@@ -1,0 +1,108 @@
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,figure,figcaption,footer,header,hgroup,menu,nav,output,ruby,section,summary,time,mark,audio,video,input,textarea{font-size:100%;padding:0;border:0;margin:0;vertical-align:baseline;outline:none;-webkit-appearance: none;}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}table{border-collapse:collapse;border-spacing:0}article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block}.clear{clear:both}
+
+body {
+    padding: 0;
+    margin: 0;
+    font-family: 'Open Sans', sans-serif; color: #4d4d4e;
+}
+
+.status
+{
+    background-image: url('../img/upload-photo.png');
+    background-repeat: no-repeat;
+    position: relative;
+    background-position: 50% 50%;
+    top: 135px;
+    width: 119px;
+    height: 71px;
+    display: inline-block;
+}
+
+.uploaded_info
+{
+    background: black;
+    position: relative;
+    top: 0px;
+}
+
+.cloudinary-fileupload {
+    display: none;
+}
+
+.upload-button {
+    margin: 0;
+    width: 100%;
+    height: 340px;
+    background: #e1e1e1;
+    text-align: center;
+}
+
+label {
+    display: none;
+}
+
+.close {
+    display: none;
+    position: absolute;
+    top: 15px;
+    left: 330px;
+    z-index: 3;
+}
+
+.badge-default {
+    background: #c6c6c6;
+}
+
+.badge {
+    font-size: 11px !important;
+    font-weight: 300;
+    height: 18px;
+    padding: 3px 8px 3px 8px;
+    border-radius: 12px !important;
+    text-shadow: none !important;
+    text-align: center;
+    vertical-align: middle;
+    color: #fff;
+}
+
+.btn {
+    display: inline-block;
+    border: 0;
+    cursor: pointer;
+    font-size: 12px;
+    line-height: 1em;
+    text-transform: uppercase;
+}
+
+.btn-submit {
+    color: #ffffff;
+    font-weight: 700;
+    text-decoration: none;
+    border-radius: 18px;
+    padding: 0.8em 1.75em;
+}
+
+.btn-green {
+    background: #43c279;
+}
+
+.btn-clear {
+    color: #ababab;
+    font-weight: 400;
+    text-decoration: underline;
+    background: #ffffff;
+    padding: 0.8em 0;
+}
+
+#loop-post-form .text {
+    text-align: center;
+    font-size: 21px;
+    line-height: 25px;
+    width: 315px;
+    margin: 70px 6px 0px 16px;
+    padding-bottom: 30px;
+}
+
+#loop-post-form .link {
+    margin: 10px 6px 40px 16px;
+}

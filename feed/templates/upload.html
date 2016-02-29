@@ -1,0 +1,119 @@
+{% load cloudinary %}
+{% load staticfiles %}
+{% load url from future %}
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>{% block title %}{% endblock %}</title>
+
+        <link rel="shortcut icon" href="{% cloudinary_url "http://cloudinary.com/favicon.png" type="fetch" %}" />
+        <link href="{% static "css/style.css" %}" rel="stylesheet" type="text/css">
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+        {% cloudinary_includes %}
+        {% cloudinary_js_config %}
+
+        <script>
+            var last_public_id, old_last_public_id;
+
+            $(function () {
+                var upload_button = $('<div class="upload-button"/>');
+                $(upload_button).append($('<div class="status"/>'));
+                $(upload_button).insertBefore('#post-text');
+                var info = $('<div class="uploaded_info"/>');
+                $(info).append($('<div class="image"/>'));
+                $(info).insertAfter('.upload-button');
+                $(info).hide();
+
+                $('#direct_upload input[type="file"]')
+                .fileupload({
+                    dropZone: '.upload-button',
+                    start: function () {
+                        $('.status').css("background-image", "url({% static 'img/wait.png' %})");
+                    },
+                    progress: function () {
+                    },
+                })
+                .on('cloudinarydone', function (e, data) {
+                    $.post(this.form.action, $(this.form).serialize()+'&no_submit=1').always(function (result, status, jqxhr) {
+{#                        $('.status_value').text(result.errors ? JSON.stringify(result.errors) : status);#}
+{#                        JSON result#}
+                        last_public_id = result;
+                    });
+
+                    $('.image').html('');
+                    $('.image').append(
+                        $.cloudinary.image(data.result.public_id, {
+                            format: data.result.format, width: 372, crop: "scale"
+                        })
+                    ).append('<img class="close" src="{% static 'img/close.png' %}" />');
+                    $('.status').css("background-image", "url()");
+
+                    $(upload_button).hide();
+                    $(info).show();
+
+                    $('.image').on('mouseover', function(){
+                        $('.image').css('opacity', 0.4);
+                        $('.close').show();
+                        $('.close').on('click', function(){
+                            $('.status').css("background-image", "url({% static 'img/upload-photo.png' %})");
+                            $(upload_button).show();
+                            $(info).hide();
+                            if (old_last_public_id == last_public_id)
+                                return;
+                            // delete already uploaded image
+                            $.post(generete_del_url(), {});
+                            old_last_public_id = last_public_id;
+                        });
+                    });
+                    $('.image').on('mouseout', function(){
+                        $('.image').css('opacity', 1);
+                        $('.close').hide();
+                    });
+                });
+
+                $('.upload-button').on('click', function(e){
+                    e.preventDefault()
+                    $(".cloudinary-fileupload").trigger('click')
+                });
+
+                $('<span id="len_text" class="badge badge-default" style="float:right; margin: 70px 5px 0px 0px"></span>').insertAfter('#post-text');
+                $('#len_text').hide();
+
+                $('.btn-submit').attr('disabled',true);
+                $('#post-text').on('keydown', function(event) {
+                    var len_text = $('#post-text').val().length;
+                    if(len_text == 0)
+                    {
+                        $('#len_text').hide();
+                        $('.btn-clear').hide();
+                        $('.btn-submit').attr('disabled',true);
+                        $('.btn-submit').removeClass('btn-green');
+                    } else {
+                        $('#len_text').show();
+                        $('.btn-clear').show();
+                        $('.btn-submit').removeAttr('disabled');
+                        $('.btn-submit').addClass('btn-green');
+                    }
+
+                    $('#len_text').html(60-len_text);
+                });
+
+                function generete_del_url(){
+                    return "{% url 'feed.views.delete_image' public_id='112233' %}".replace("112233", last_public_id);
+                }
+            });
+
+        </script>
+    </head>
+    <body>
+        <div id='direct_upload'>
+            <form action="{% url "feed.views.direct_upload_complete" %}" method="post" enctype="multipart/form-data"  id="loop-post-form">
+                {% csrf_token %}
+                {{ direct_form }}
+                <div class="clear"></div>
+                <input type="button" value="CANCEL" class="btn btn-clear" style="display: none; margin-left: 25px;" onclick="window.close(0);"/>
+                <input type="submit" value="Post" class="btn btn-submit"  style="float: right; margin-right: 25px;"/>
+            </form>
+        </div>
+    </body>
+</html>
