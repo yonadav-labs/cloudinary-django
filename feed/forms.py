@@ -1,10 +1,15 @@
-from django.forms import ModelForm
 from cloudinary.forms import CloudinaryJsFileField
-from .models import Loop
 from django import forms
+from django.forms import ModelForm
+
+from .models import Loop
 
 
 class FeedForm(ModelForm):
+    '''
+    define the feed form with some customization
+    '''
+
     class Meta:
         model = Loop
         fields = ('image', 'text', 'link',)

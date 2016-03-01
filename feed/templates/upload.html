@@ -13,12 +13,16 @@
         {% cloudinary_js_config %}
 
         <script>
+            // store public_id of the last image and previous one
             var last_public_id, old_last_public_id;
 
             $(function () {
+                // define drop zone
                 var upload_button = $('<div class="upload-button"/>');
                 $(upload_button).append($('<div class="status"/>'));
                 $(upload_button).insertBefore('#post-text');
+
+                // uploaded result
                 var info = $('<div class="uploaded_info"/>');
                 $(info).append($('<div class="image"/>'));
                 $(info).insertAfter('.upload-button');
@@ -34,9 +38,8 @@
                     },
                 })
                 .on('cloudinarydone', function (e, data) {
+                    // get the public_id of the uploaded image
                     $.post(this.form.action, $(this.form).serialize()+'&no_submit=1').always(function (result, status, jqxhr) {
-{#                        $('.status_value').text(result.errors ? JSON.stringify(result.errors) : status);#}
-{#                        JSON result#}
                         last_public_id = result;
                     });
 
@@ -70,7 +73,7 @@
                         $('.close').hide();
                     });
                 });
-
+                // replace the default file input with decorated div
                 $('.upload-button').on('click', function(e){
                     e.preventDefault()
                     $(".cloudinary-fileupload").trigger('click')
@@ -82,6 +85,7 @@
                 $('.btn-submit').attr('disabled',true);
                 $('#post-text').on('keydown', function(event) {
                     var len_text = $('#post-text').val().length;
+                    // update the number in balloon and the state of the Post button
                     if(len_text == 0)
                     {
                         $('#len_text').hide();
@@ -98,6 +102,7 @@
                     $('#len_text').html(60-len_text);
                 });
 
+                // generate the url for deleting the image with last public_id
                 function generete_del_url(){
                     return "{% url 'feed.views.delete_image' public_id='112233' %}".replace("112233", last_public_id);
                 }

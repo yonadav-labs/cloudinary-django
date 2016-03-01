@@ -1,9 +1,26 @@
 This project is for uploading images to Cloudinary Server.
+You can see full description of this project from the UX.pdf
+
+Account information is:
+
+    username: chamrick@me.com
+    password: Today24!
+
+    Environment variable:
+        CLOUDINARY_URL=cloudinary://324258347879535:rU1MCQZlfO9yReJgsdfswBe7ctI@dtnmqbqbk
+
+    Documentation:
+        http://cloudinary.com/documentation/django_integration
+        https://devcenter.heroku.com/articles/cloudinary
+
 It has a nice interface.
 
 It requires lots of techs.
+Especially, making the CloudinaryField non-required is challenging, there is no answer to the problem in stackoverflow.
+This project provides full solution to the problem.
 
 It assume the screen width is 372px.
 
 Its Database is PostgreSQL.
 
+This was developed on PyCharm.
